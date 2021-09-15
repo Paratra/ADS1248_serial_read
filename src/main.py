@@ -98,7 +98,9 @@ while(True):
          {
             "measurement": sname,
             "tags" : tag,
-            "fields" : point,
+            "fields" : {
+               "value": point
+            },
             "time": write_time
            }
          )
