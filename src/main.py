@@ -13,7 +13,7 @@ un = 'admin'
 pw = 'sensorweb128'
 db = 'newdevice'
 sname = 'Z'
-tag = 'greenboard'
+tag = {'board':'greenboard'}
 
 timez = 'America/New_York'
 time_zone = pytz.timezone(timez)
@@ -85,10 +85,10 @@ while(True):
            except:
                   continue
        index += 1
-      
+
 
        data = []
-       
+
        for point in data_list:
       # i = 0
          current_time_stamp += datetime.timedelta(milliseconds=time_interval)
