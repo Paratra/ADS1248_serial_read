@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import time
 from influxdb import InfluxDBClient
-import datetime 
+import datetime
 import pytz
 import serial
 from pdb import set_trace as st
 
 
-# InfluxDB configuration 
+# InfluxDB configuration
 write_batch_size = 5000
 host = 'sensorweb.us'
 un = 'admin'
@@ -18,15 +18,15 @@ tag = 'greenboard'
 
 timez = 'America/New_York'
 time_zone = pytz.timezone(timez)
-# current time 
+# current time
 ct = datetime.datetime.now()
 ct = time_zone.localize(ct, is_dst=None)
 # s_time = str(int(ct.timestamp()*1000*1000000))
 
-dClient = InfluxDBClient(host=host, 
-                            port=8086, 
-                            username=un, 
-                            password=pw, 
+dClient = InfluxDBClient(host=host,
+                            port=8086,
+                            username=un,
+                            password=pw,
                             database=db,
                             ssl=True)
 
@@ -65,28 +65,16 @@ ser.write(b"START;")
 #time.sleep(0.1)
 
 index=0
-data_list = []
 while(True):
+    data_list = []
     #ser.write(b"START;")
     x=str(ser.read(1350))
     if index <= 2:
        index += 1
        continue
-    
-    #if index == 0:
-    #   x_ = x.split('\\n')[15].split(',')
-    #   #x_segmentation[15].split(',')
-    #   for i in range(len(x_)):
-    #       if ' ' in x_[i] or i == 1:
-    #          continue
-    #       if int(x_[i]) == 1:
-    #          
-    #          try:
-    #             data_list.append(int(x_[i+2]))
-    #          except:
-    #             continue
+
     else:
-       len_list = len(data_list)
+       # len_list = len(data_list)
        x_ = x.replace("b","").replace("'","").split(',')
        for i in range(len(x_)):
            if ' 'in x_[i] or len(x_[i])==0:
@@ -97,7 +85,3 @@ while(True):
            except:
                   continue
        index += 1
-       print(len(data_list)-len_list)
-       #st()
-    #index += 1
-    #print(x)
