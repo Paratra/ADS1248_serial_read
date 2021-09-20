@@ -107,5 +107,5 @@ while(True):
            }
          )
        #print(data)
-       print(f'Uploaded')
+       #print(f'Uploaded')
        dClient.write_points(data, database = db, time_precision = 'ms', batch_size = write_batch_size, protocol = 'json')
