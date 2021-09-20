@@ -4,7 +4,8 @@ import datetime
 import pytz
 import serial
 from pdb import set_trace as st
-
+import warnings
+warnings.filterwarnings("ignore")
 
 # InfluxDB configuration
 write_batch_size = 5000
@@ -15,7 +16,8 @@ db = 'newdevice'
 sname = 'Z'
 tag = {'board':'greenboard'}
 
-timez = 'America/New_York'
+#timez = 'America/New_York'
+timez = 'UTC'
 time_zone = pytz.timezone(timez)
 
 # s_time = str(int(ct.timestamp()*1000*1000000))
@@ -27,7 +29,7 @@ dClient = InfluxDBClient(host=host,
                             database=db,
                             ssl=True)
 
-sample_rate = 1 / 320
+sample_rate = 1 / 160
 time_interval = sample_rate * 1000 # in milisecond
 
 
@@ -71,8 +73,8 @@ while(True):
     else:
        if index == 3:
          # current time
-         ct = datetime.datetime.now()
-         ct = time_zone.localize(ct, is_dst=None)
+         ct = datetime.datetime.now(pytz.UTC)
+         #ct = time_zone.localize(ct)
          current_time_stamp = ct
        # len_list = len(data_list)
        x_ = x.replace("b","").replace("'","").split(',')
@@ -88,7 +90,7 @@ while(True):
 
 
        data = []
-
+       #st()
        for point in data_list:
       # i = 0
          current_time_stamp += datetime.timedelta(milliseconds=time_interval)
@@ -104,5 +106,6 @@ while(True):
             "time": write_time
            }
          )
-       print(data)
+       #print(data)
+       print(f'Uploaded')
        dClient.write_points(data, database = db, time_precision = 'ms', batch_size = write_batch_size, protocol = 'json')
