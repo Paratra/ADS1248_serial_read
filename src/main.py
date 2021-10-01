@@ -12,7 +12,8 @@ write_batch_size = 5000
 host = 'sensorweb.us'
 un = 'admin'
 pw = 'sensorweb128'
-db = 'newdevice'
+#db = 'newdevice'
+db = 'shake'
 sname = 'Z'
 tag = {'board':'greenboard'}
 
@@ -62,6 +63,8 @@ ser.write(b"START;")
 
 index=0
 
+#st()
+
 while(True):
     data_list = []
     #ser.write(b"START;")
@@ -94,6 +97,7 @@ while(True):
        for point in data_list:
       # i = 0
          current_time_stamp += datetime.timedelta(milliseconds=time_interval)
+         #current_time_stamp = datetime.datetime.now(pytz.UTC)
          write_time = current_time_stamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
          data.append(
@@ -101,7 +105,7 @@ while(True):
             "measurement": sname,
             "tags" : tag,
             "fields" : {
-               "value": point
+               "value": float(point)
             },
             "time": write_time
            }
