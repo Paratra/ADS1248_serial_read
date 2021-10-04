@@ -91,9 +91,13 @@ while(True):
                   continue
        index += 1
 
+       ### write every point
 
+
+
+       ### write into json
        data = []
-       #st()
+       current_time_stamp = datetime.datetime.now(pytz.UTC)
        for point in data_list:
       # i = 0
          current_time_stamp += datetime.timedelta(milliseconds=time_interval)
