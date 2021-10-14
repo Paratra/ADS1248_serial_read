@@ -104,7 +104,7 @@ ser.write(b"SAMPLERATE=80;")
 time.sleep(0.5)
 
 ser.write(b"START;")
-#time.sleep(0.1)
+time.sleep(0.5)
 
 
 
