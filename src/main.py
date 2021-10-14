@@ -108,7 +108,7 @@ ser.write(b"START;")
 
 index=0
 
-#st()
+st()
 
 while(True):
     data_list = []
