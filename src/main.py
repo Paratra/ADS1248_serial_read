@@ -143,6 +143,7 @@ while(ser.isOpen()):
 
    ### write use write_influx
     current_time_stamp = datetime.datetime.now(pytz.UTC)
+    st()
     write_influx(dest, 'greenboard', 'Z', 'value', data_list, current_time_stamp, fs=80)
     # for point in data_list:
 
