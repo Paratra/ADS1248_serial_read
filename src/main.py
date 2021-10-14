@@ -92,25 +92,25 @@ ser = serial.Serial(
 #ser.write(b"STOP;")
 #time.sleep(1)
 
-ser.write(b"RESET;")
-time.sleep(0.5)
-
-ser.write(b"FORMAT=D;")
-time.sleep(0.5)
-
-ser.write(b"CHANNEL=1;")
-time.sleep(0.5)
-
-ser.write(b"SAMPLERATE=80;")
-time.sleep(0.5)
-
-ser.write(b"START;")
+# ser.write(b"RESET;")
+# time.sleep(0.5)
+#
+# ser.write(b"FORMAT=D;")
+# time.sleep(0.5)
+#
+# ser.write(b"CHANNEL=1;")
+# time.sleep(0.5)
+#
+# ser.write(b"SAMPLERATE=80;")
+# time.sleep(0.5)
+#
+# ser.write(b"START;")
 # time.sleep(0.5)
 
 
 
 index=0
-print(str(ser.read(200)))
+print(str(ser.read(1000)))
 st()
 
 while(ser.isOpen()):
