@@ -49,7 +49,7 @@ def write_influx(influx, unit, table_name, data_name, data, start_timestamp, fs)
         if(count >= max_size):
             http_post += "\'  &"
             # print(http_post)
-            print("Write to influx: ", table_name, data_name, count)
+            # print("Write to influx: ", table_name, data_name, count)
             subprocess.call(http_post, shell=True)
             total = total - count
             count = 0
@@ -57,7 +57,7 @@ def write_influx(influx, unit, table_name, data_name, data, start_timestamp, fs)
     if count != 0:
         http_post += "\'  &"
         # print(http_post)
-        print("Write to influx: ", table_name, data_name, count, data)
+        # print("Write to influx: ", table_name, data_name, count, data)
         subprocess.call(http_post, shell=True)
 
 
