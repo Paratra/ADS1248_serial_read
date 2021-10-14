@@ -111,7 +111,7 @@ ser.write(b"START;")
 
 index=0
 # print(str(ser.read(1000)))
-st()
+# st()
 
 while(ser.isOpen()):
     data_list = []
