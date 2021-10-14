@@ -80,8 +80,8 @@ time_interval = sample_rate * 1000 # in milisecond
 
 
 ser = serial.Serial(
-        # port='/dev/ttyS0',
-        port='/dev/ttyAMA0',
+        port='/dev/ttyS0',
+        # port='/dev/ttyAMA0',
         baudrate = 57600,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
@@ -105,7 +105,7 @@ ser.write(b"SAMPLERATE=80;")
 time.sleep(0.5)
 
 ser.write(b"START;")
-time.sleep(0.5)
+# time.sleep(0.5)
 
 
 
