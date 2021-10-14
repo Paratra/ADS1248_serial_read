@@ -3,6 +3,7 @@ from influxdb import InfluxDBClient
 import datetime
 import pytz
 import serial
+import subprocess
 from pdb import set_trace as st
 import warnings
 warnings.filterwarnings("ignore")
@@ -26,12 +27,53 @@ time_zone = pytz.timezone(timez)
 
 # s_time = str(int(ct.timestamp()*1000*1000000))
 
-dClient = InfluxDBClient(host=host,
-                            port=8086,
-                            username=un,
-                            password=pw,
-                            database=db,
-                            ssl=True)
+
+# This function write an array of data to influxdb. It assumes the sample interval is 1/fs.
+# influx - the InfluxDB info including ip, db, user, pass. Example influx = {'ip': 'https://sensorweb.us', 'db': 'algtest', 'user':'test', 'passw':'sensorweb'}
+# dataname - the dataname such as temperature, heartrate, etc
+# timestamp - the epoch time (in second) of the first element in the data array, such as datetime.now().timestamp()
+# fs - the sampling interval of readings in data
+# unit - the unit location name tag
+def write_influx(influx, unit, table_name, data_name, data, start_timestamp, fs):
+    # print("epoch time:", timestamp)
+    max_size = 100
+    count = 0
+    total = len(data)
+    prefix_post  = "curl -s -POST \'"+ influx['ip']+":8086/write?db="+influx['db']+"\' -u "+ influx['user']+":"+ influx['passw']+" --data-binary \' "
+    http_post = prefix_post
+    for value in data:
+        count += 1
+        http_post += "\n" + table_name +",location=" + unit + " "
+        http_post += data_name + "=" + str(value) + " " + str(int(start_timestamp*10e8))
+        start_timestamp +=  1/fs
+        if(count >= max_size):
+            http_post += "\'  &"
+            # print(http_post)
+            print("Write to influx: ", table_name, data_name, count)
+            subprocess.call(http_post, shell=True)
+            total = total - count
+            count = 0
+            http_post = prefix_post
+    if count != 0:
+        http_post += "\'  &"
+        # print(http_post)
+        print("Write to influx: ", table_name, data_name, count, data)
+        subprocess.call(http_post, shell=True)
+
+
+
+
+
+
+# dClient = InfluxDBClient(host=host,
+#                             port=8086,
+#                             username=un,
+#                             password=pw,
+#                             database=db,
+#                             ssl=True)
+dest = {'ip':'https://sensorweb.us', 'db':'shake', 'user':'admin', 'passw':'sensorweb128'}
+
+
 
 sample_rate = 1 / 80
 time_interval = sample_rate * 1000 # in milisecond
@@ -96,27 +138,34 @@ while(True):
 
        ### write every point
 
+   ### write use write_influx
+    current_time_stamp = datetime.datetime.now(pytz.UTC)
+    write_influx(dest, 'greenboard', 'Z', 'value', data_list, current_time_stamp, fs=80)
+    # for point in data_list:
 
 
-       ### write into json
-       data = []
-       current_time_stamp = datetime.datetime.now(pytz.UTC)
-       for point in data_list:
-      # i = 0
-         current_time_stamp += datetime.timedelta(milliseconds=time_interval)
-         #current_time_stamp = datetime.datetime.now(pytz.UTC)
-         write_time = current_time_stamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
-         data.append(
-         {
-            "measurement": sname,
-            "tags" : tag,
-            "fields" : {
-               "value": float(point)
-            },
-            "time": write_time
-           }
-         )
-       #print(data)
-       #print(f'Uploaded')
-       dClient.write_points(data, database = db, time_precision = 'ms', batch_size = write_batch_size, protocol = 'json')
+
+
+      #
+      #  ### write into json
+      #  data = []
+      #  current_time_stamp = datetime.datetime.now(pytz.UTC)
+      #  for point in data_list:
+      # # i = 0
+      #    current_time_stamp += datetime.timedelta(milliseconds=time_interval)
+      #    #current_time_stamp = datetime.datetime.now(pytz.UTC)
+      #    write_time = current_time_stamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+      #
+      #    data.append(
+      #    {
+      #       "measurement": sname,
+      #       "tags" : tag,
+      #       "fields" : {
+      #          "value": float(point)
+      #       },
+      #       "time": write_time
+      #      }
+      #    )
+      #
+      #  dClient.write_points(data, database = db, time_precision = 'ms', batch_size = write_batch_size, protocol = 'json')
