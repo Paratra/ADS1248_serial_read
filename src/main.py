@@ -95,16 +95,16 @@ ser = serial.Serial(
 # ser.write(b"RESET;")
 # time.sleep(0.5)
 #
-# ser.write(b"FORMAT=D;")
-# time.sleep(0.5)
+ser.write(b"FORMAT=D;")
+time.sleep(0.5)
 #
 # ser.write(b"CHANNEL=1;")
 # time.sleep(0.5)
 #
-# ser.write(b"SAMPLERATE=80;")
-# time.sleep(0.5)
+ser.write(b"SAMPLERATE=80;")
+time.sleep(0.5)
 #
-# ser.write(b"START;")
+ser.write(b"START;")
 # time.sleep(0.5)
 
 
