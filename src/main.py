@@ -106,11 +106,13 @@ time.sleep(0.5)
 ser.write(b"START;")
 #time.sleep(0.1)
 
-index=0
 
+
+index=0
+print(str(ser.read(200)))
 st()
 
-while(True):
+while(ser.isOpen()):
     data_list = []
     #ser.write(b"START;")
     x=str(ser.read(1350))
