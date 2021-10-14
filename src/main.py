@@ -89,8 +89,8 @@ ser = serial.Serial(
         timeout=10
 )
 
-ser.write(b"STOP;")
-time.sleep(1)
+# ser.write(b"STOP;")
+# time.sleep(1)
 
 ser.write(b"RESET;")
 time.sleep(0.5)
