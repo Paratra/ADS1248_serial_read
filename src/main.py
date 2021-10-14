@@ -12,6 +12,9 @@ write_batch_size = 5000
 host = 'sensorweb.us'
 un = 'admin'
 pw = 'sensorweb128'
+#host = 'homedots.us'
+#un = 'test'
+#pw = 'HomeDots'
 #db = 'newdevice'
 db = 'shake'
 sname = 'Z'
@@ -30,7 +33,7 @@ dClient = InfluxDBClient(host=host,
                             database=db,
                             ssl=True)
 
-sample_rate = 1 / 160
+sample_rate = 1 / 80
 time_interval = sample_rate * 1000 # in milisecond
 
 
@@ -55,7 +58,7 @@ time.sleep(0.5)
 ser.write(b"CHANNEL=1;")
 time.sleep(0.5)
 
-ser.write(b"SAMPLERATE=160;")
+ser.write(b"SAMPLERATE=80;")
 time.sleep(0.5)
 
 ser.write(b"START;")
