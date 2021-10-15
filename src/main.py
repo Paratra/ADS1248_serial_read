@@ -65,12 +65,12 @@ def write_influx(influx, unit, table_name, data_name, data, start_timestamp, fs)
 
 
 
-# dClient = InfluxDBClient(host=host,
-#                             port=8086,
-#                             username=un,
-#                             password=pw,
-#                             database=db,
-#                             ssl=True)
+dClient = InfluxDBClient(host=host,
+                            port=8086,
+                            username=un,
+                            password=pw,
+                            database=db,
+                            ssl=True)
 dest = {'ip':'https://sensorweb.us', 'db':'shake', 'user':'admin', 'passw':'sensorweb128'}
 
 
