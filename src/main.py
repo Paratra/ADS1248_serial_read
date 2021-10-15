@@ -143,32 +143,32 @@ while(ser.isOpen()):
 
    ### write use write_influx
 
-    # current_time_stamp = datetime.datetime.now(pytz.UTC).timestamp()
-    # write_influx(dest, 'greenboard', 'Z', 'value', data_list, current_time_stamp, fs=80)
-
+    current_time_stamp = datetime.datetime.now(pytz.UTC).timestamp()
+    write_influx(dest, 'greenboard', 'Z', 'value', data_list, current_time_stamp, fs=80)
 
 
 
 
       #
-      #  ### write into json
-       data = []
-       current_time_stamp = datetime.datetime.now(pytz.UTC)
-       for point in data_list:
-      # i = 0
-         current_time_stamp += datetime.timedelta(milliseconds=time_interval)
-         #current_time_stamp = datetime.datetime.now(pytz.UTC)
-         write_time = current_time_stamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-
-         data.append(
-         {
-            "measurement": sname,
-            "tags" : tag,
-            "fields" : {
-               "value": float(point)
-            },
-            "time": write_time
-           }
-         )
-
-       dClient.write_points(data, database = db, time_precision = 'ms', batch_size = write_batch_size, protocol = 'json')
+      # #
+      # #  ### write into json
+      #  data = []
+      #  current_time_stamp = datetime.datetime.now(pytz.UTC)
+      #  for point in data_list:
+      # # i = 0
+      #    current_time_stamp += datetime.timedelta(milliseconds=time_interval)
+      #    #current_time_stamp = datetime.datetime.now(pytz.UTC)
+      #    write_time = current_time_stamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+      #
+      #    data.append(
+      #    {
+      #       "measurement": sname,
+      #       "tags" : tag,
+      #       "fields" : {
+      #          "value": float(point)
+      #       },
+      #       "time": write_time
+      #      }
+      #    )
+      #
+      #  dClient.write_points(data, database = db, time_precision = 'ms', batch_size = write_batch_size, protocol = 'json')
